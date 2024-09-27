@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import './forgetPass.dart';
 import '../coursescreens/appLayout.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 void main() {
   runApp(
     MaterialApp(home: LoginPage()),
@@ -24,7 +26,10 @@ class _LoginPageState extends State<LoginPage>
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
-
+  String emailValue = 'admin@gmail.com';
+  String passwordValue = 'admin123';
+  int phoneNumber = 0996486675;
+  
   @override
   void initState() {
     super.initState();
@@ -40,12 +45,19 @@ class _LoginPageState extends State<LoginPage>
     super.dispose();
   }
 
- void applayout() {
+ void applayout() async{
+   SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isLoggedIn', true);
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => AppLayout()),
                   );
  }
+ bool isValidEmail(String email) {
+  String emailPattern = r'^[^@]+@[^@]+\.[^@]+';
+  RegExp regExp = RegExp(emailPattern);
+  return regExp.hasMatch(email);
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -162,7 +174,21 @@ class _LoginPageState extends State<LoginPage>
                                   final email = emailController.text;
                                   final password = passwordController.text;
                                   // print('Email: $email, Password: $password');
+                                  if(email.isEmpty || password.isEmpty) {
+                                     ScaffoldMessenger.of(context).showSnackBar(
+                                         SnackBar(content: Text('Please enter email and password')),
+                                         );
+                                  } else if(!isValidEmail(email)) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                         SnackBar(content: Text('Please enter vaild email address')),
+                                         );
+                                  } else if (email != emailValue || password != passwordValue) {
+                                       ScaffoldMessenger.of(context).showSnackBar(
+                                         SnackBar(content: Text('Incorrect Credentials')),
+                                         );
+                                  } else {
                                   applayout();
+                                  }
                                 },
                                 child: Text('Login'),
                                 style: ElevatedButton.styleFrom(
@@ -252,7 +278,17 @@ class _LoginPageState extends State<LoginPage>
                                 onPressed: () {
                                   final phone = phoneController.text;
                                   final password = passwordController.text;
-                                  print('Phone: $phone, Password: $password');
+                                 if(phone.isEmpty || password.isEmpty) {
+                                     ScaffoldMessenger.of(context).showSnackBar(
+                                         SnackBar(content: Text('Please enter phone number and password')),
+                                         );
+                                  } else if (phone != emailValue || password != passwordValue) {
+                                       ScaffoldMessenger.of(context).showSnackBar(
+                                         SnackBar(content: Text('Incorrect Credentials')),
+                                         );
+                                  } else {
+                                  applayout();
+                                  }
                                 },
                                 child: Text('Login'),
                                 style: ElevatedButton.styleFrom(
@@ -292,19 +328,15 @@ class _LoginPageState extends State<LoginPage>
               children: [
                 Text(
                   "Don't have an account?",
-                  style: TextStyle(fontSize: 16),
+                  style: TextStyle(fontSize: 16,color: Colors.black),
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ForgotPasswordPage()),
-                    );
+                  print('Page...');
                   },
                   child: Text(
                     'Sign Up',
-                    style: TextStyle(color: Colors.blue, fontSize: 16),
+                    style: TextStyle(color: Colors.black, fontSize: 16),
                   ),
                 ),
               ],
@@ -320,7 +352,7 @@ class _LoginPageState extends State<LoginPage>
                   child: Text(
                     "Forgot Password?",
                     style: TextStyle(
-                      color: const Color.fromRGBO(33, 150, 243, 1),
+                      color: Colors.grey[600],
                       fontSize: 16,
                       fontWeight: FontWeight.normal,
                     ),

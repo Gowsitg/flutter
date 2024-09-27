@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import './otpScreen.dart';
-import './ResetPassword.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   @override
@@ -11,6 +10,21 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final TextEditingController contactController = TextEditingController();
 
   // Function to handle "Get OTP" button press
+  bool isValidEmail(String email) {
+  String emailPattern = r'^[^@]+@[^@]+\.[^@]+';
+  RegExp regExp = RegExp(emailPattern);
+  return regExp.hasMatch(email);
+}
+bool isPhoneNumber(String contact) {
+  final phoneRegex = RegExp(r"^[0-9]{10,}$"); // Adjust the pattern based on the format you expect
+  return phoneRegex.hasMatch(contact);
+}
+
+bool isEmail(String contact) {
+  final emailRegex = RegExp(r"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
+  return emailRegex.hasMatch(contact);
+}
+
   void getOtp() {
     final contact = contactController.text;
 
@@ -18,7 +32,20 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Please enter your registered email or mobile number')),
       );
-    } else {
+    } else if (contact.isNotEmpty) {
+  if (isEmail(contact)) {
+    sendOtp(contact);
+  } else if (isPhoneNumber(contact)) {
+    sendOtp(contact);
+  } else {
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Enter valid email or mobile number')),
+      );
+  }
+}
+  }
+
+   sendOtp(contact) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -41,9 +68,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         );
       },
     );
-    }
-  }
-
+   }
   @override
   void dispose() {
     contactController.dispose();

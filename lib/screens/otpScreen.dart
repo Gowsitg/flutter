@@ -2,13 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import './ResetPassword.dart';
 
-void main() {
-  runApp(
-    MaterialApp(
-      home: OtpScreen(),
-    ),
-  );
-}
 
 class OtpScreen extends StatefulWidget {
   const OtpScreen({super.key});

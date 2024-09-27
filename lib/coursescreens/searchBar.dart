@@ -1,13 +1,5 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(
-    MaterialApp(
-      home: searchBar()
-    )
-  );
-}
-
 class searchBar extends StatefulWidget {
   const searchBar({super.key});
 

@@ -2,14 +2,6 @@ import 'package:flutter/material.dart';
 import 'sideNav.dart';
 import 'newCourse.dart';
 
-void main() {
-  runApp(
-    MaterialApp(
-      home: Home(),
-    ),
-  );
-}
-
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -89,18 +81,7 @@ class _HomeState extends State<Home> {
           ),
         ),
        drawer: SideNavbar(),
-body: Container(
-  color: Colors.white.withOpacity(.9),
-  child: SingleChildScrollView(
-    child: ConstrainedBox(
-      constraints: BoxConstraints(
-        minHeight: MediaQuery.of(context).size.height,  // Set a minimum height to fill the screen
-      ),
-      child: IntrinsicHeight(
-        child: Newcourse(),
-      ),
-    ),
-  ),
-),);
+     body: Newcourse()
+    );
   }
 }

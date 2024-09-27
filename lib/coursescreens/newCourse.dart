@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MaterialApp(home: Newcourse()));
-}
-
 class Newcourse extends StatefulWidget {
   const Newcourse({super.key});
 
@@ -39,21 +35,15 @@ class _NewcourseState extends State<Newcourse> {
       'name': 'John',
       'time': '01:23',
     },
-     {
-      'imageUrl':
-          'https://i.pinimg.com/736x/5a/ab/f8/5aabf84d67477f77d3bb8f0fe4cfcd17.jpg',
-      'rating': '5',
-      'title': 'Course Title 4',
-      'name': 'Yuva',
-      'time': '11:29',
-    },
+     
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start, 
+      body: SingleChildScrollView(
+        child: Column(
+  crossAxisAlignment: CrossAxisAlignment.start, 
         children: [
         Padding(
           padding: EdgeInsets.all(20),
@@ -140,7 +130,7 @@ class _NewcourseState extends State<Newcourse> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            course['title'] ?? 'No Title',
+                            course['title'] ?? '--',
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           ),
@@ -155,7 +145,7 @@ class _NewcourseState extends State<Newcourse> {
                                     Icon(Icons.person, size: 14,color: Colors.grey[600],),
                                     SizedBox(width: 2),
                                     Text(
-                                      course['name'] ?? 'Unknown',
+                                      course['name'] ?? '--',
                                       style: TextStyle(fontSize: 12,color: Colors.grey[600]),
                                     ),
                                   ],
@@ -166,7 +156,7 @@ class _NewcourseState extends State<Newcourse> {
                                   Icon(Icons.access_time, size: 14,color: Colors.grey[600],),
                                   SizedBox(width: 2),
                                   Text(
-                                    course['time'] ?? 'No time',
+                                    course['time'] ?? '--',
                                     style: TextStyle(fontSize: 12,color: Colors.grey[600]),
                                   ),
                                 ],
@@ -181,7 +171,11 @@ class _NewcourseState extends State<Newcourse> {
             ],
           ),
         )
-      ]),
+        ]
+        ),
+
+      
+      ),
     );
   }
 }
